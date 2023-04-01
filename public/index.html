@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="apple-mobile-web-app-title" id="base_meta_title">
+		<!-- 控制是否添加到桌面的关键，yes为开启导航栏，no为关闭 -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<!--    <meta name="apple-mobile-web-app-status-bar-style" content="default"> -->
+
+		<link rel="icon" id="base_link_icon">
+		<link rel="apple-touch-icon" id="apple_touch_icon">
+		<title>
+			<%= htmlWebpackPlugin.options.title %>
+		</title>
+		<script>
+			var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') || CSS
+				.supports('top: constant(a)'))
+			document.write(
+				'<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
+				(coverSupport ? ', viewport-fit=cover' : '') + '" />')
+		</script>
+		<link rel="stylesheet" href="<%= BASE_URL %>static/index.<%= VUE_APP_INDEX_CSS_HASH %>.css" />
+	</head>
+	<body>
+		<noscript>
+			<strong>Please enable JavaScript to continue.</strong>
+		</noscript>
+		<div id="app"></div>
+		<!-- built files will be auto injected -->
+	</body>
+</html>
+<script>
+	var explorer = navigator.userAgent
+	let icon = document.getElementById("base_link_icon")
+	let aicon = document.getElementById("apple_touch_icon")
+	let title = document.getElementById("base_meta_title")
+	setTimeout(() => {
+		let shopid = JSON.parse(uni.getStorageSync('shopId')).data
+		let shopInfo = JSON.parse(uni.getStorageSync('shopInfo')).data
+		icon.href = '图标路径，支持相对路径、绝对路径、或者url'
+		aicon.href = '图标路径，支持相对路径、绝对路径、或者url'
+		title.content = shopInfo.name
+		console.log(icon.href)
+		console.log(aicon.href)
+		console.log(title.content)
+		console.log(("standalone" in window.navigator))
+		console.log(window.navigator.standalone)
+		if (explorer.indexOf('Safari') != -1) {
+			window.history.pushState({}, 0, 'http://' + window.location.host +
+				'/static-u/index.html?shopid=' + shopid + '#/');
+		}
+
+	}, 2000)
+</script>
